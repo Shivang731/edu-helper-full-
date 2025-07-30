@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edu Helper AI - Transform Your Learning</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <span class="nav__logo">📚</span>
+                <span class="nav__title">Edu Helper AI</span>
+            </div>
+            <div class="nav__menu">
+                <a href="#features" class="nav__link">Features</a>
+                <a href="#demo" class="nav__link">Demo</a>
+                <a href="#about" class="nav__link">About</a>
+                <button class="btn btn--primary btn--sm" onclick="scrollToUpload()">Get Started</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero__content">
+                <h1 class="hero__title">Transform Your Notes & Accelerate Learning</h1>
+                <p class="hero__subtitle">Instant summaries, flashcards, audio notes, and semantic search — all in one AI platform.</p>
+                <div class="hero__actions">
+                    <button class="btn btn--primary btn--lg" onclick="scrollToUpload()">Upload Document</button>
+                    <button class="btn btn--outline btn--lg" onclick="scrollToDemo()">View Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features section">
+        <div class="container">
+            <h2 class="section__title">Key Features</h2>
+            <div class="features__grid">
+                <div class="feature-card">
+                    <div class="feature-card__icon">📝</div>
+                    <h3 class="feature-card__title">AI Summaries</h3>
+                    <p class="feature-card__description">Condense textbooks and lecture notes into bite-sized insights.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">🃏</div>
+                    <h3 class="feature-card__title">Flashcards</h3>
+                    <p class="feature-card__description">Generate effective flashcards automatically for spaced repetition.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">🔊</div>
+                    <h3 class="feature-card__title">Audio Notes</h3>
+                    <p class="feature-card__description">Listen to summaries anywhere — perfect for on-the-go learning.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">🔍</div>
+                    <h3 class="feature-card__title">Semantic Search</h3>
+                    <p class="feature-card__description">Ask natural-language questions and get answers from your documents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo section">
+        <div class="container">
+            <h2 class="section__title">Live Demo Snippet</h2>
+            <div class="demo-card">
+                <h4 class="demo-card__title">Machine Learning Concepts</h4>
+                <p class="demo-card__content"><strong>ML:</strong> Algorithms that learn from data — includes regression, classification, clustering.</p>
+                <p class="demo-card__source">Source: Intro_to_ML.pdf</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload" class="upload section">
+        <div class="container">
+            <h2 class="section__title">Upload Your Study Material</h2>
+            <div class="upload__area" id="uploadArea">
+                <div class="upload__content">
+                    <div class="upload__icon">📄</div>
+                    <h3 class="upload__title">Drag & Drop Your Files</h3>
+                    <p class="upload__description">Or click to browse (PDF, TXT files supported)</p>
+                    <input type="file" id="fileInput" class="upload__input" accept=".pdf,.txt" multiple>
+                    <button class="btn btn--primary" onclick="document.getElementById('fileInput').click()">
+                        Choose Files
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Processing Animation -->
+            <div class="processing hidden" id="processing">
+                <div class="processing__spinner"></div>
+                <p class="processing__text">Processing your document...</p>
+            </div>
+
+            <!-- Results Dashboard -->
+            <div class="results hidden" id="results">
+                <div class="results__tabs">
+                    <button class="results__tab active" data-tab="summary">Summary</button>
+                    <button class="results__tab" data-tab="flashcards">Flashcards</button>
+                    <button class="results__tab" data-tab="audio">Audio</button>
+                    <button class="results__tab" data-tab="search">Search</button>
+                </div>
+
+                <div class="results__content">
+                    <div class="results__panel active" id="summary-panel">
+                        <div class="summary-card">
+                            <h3>Generated Summary</h3>
+                            <div class="summary-content" id="summaryContent"></div>
+                        </div>
+                    </div>
+
+                    <div class="results__panel" id="flashcards-panel">
+                        <div class="flashcard-container">
+                            <div class="flashcard" id="flashcard">
+                                <div class="flashcard__front">
+                                    <p id="flashcardQuestion">Click "Generate Flashcards" to start</p>
+                                </div>
+                                <div class="flashcard__back">
+                                    <p id="flashcardAnswer">Answer will appear here</p>
+                                </div>
+                            </div>
+                            <div class="flashcard-nav">
+                                <button class="btn btn--outline" onclick="previousCard()">Previous</button>
+                                <span class="flashcard-counter" id="flashcardCounter">0 / 0</span>
+                                <button class="btn btn--outline" onclick="nextCard()">Next</button>
+                            </div>
+                            <button class="btn btn--primary" onclick="generateFlashcards()">Generate Flashcards</button>
+                        </div>
+                    </div>
+
+                    <div class="results__panel" id="audio-panel">
+                        <div class="audio-card">
+                            <h3>Audio Narration</h3>
+                            <div class="audio-player" id="audioPlayer">
+                                <button class="btn btn--primary" onclick="generateAudio()">Generate Audio</button>
+                                <div class="audio-controls hidden" id="audioControls">
+                                    <button class="audio-btn" onclick="playPauseAudio()">▶️</button>
+                                    <div class="audio-progress">
+                                        <div class="audio-progress-bar"></div>
+                                    </div>
+                                    <span class="audio-time">0:00 / 0:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="results__panel" id="search-panel">
+                        <div class="search-card">
+                            <h3>Semantic Search</h3>
+                            <div class="search-input-group">
+                                <input type="text" class="form-control" id="searchQuery" placeholder="Ask a question about your document...">
+                                <button class="btn btn--primary" onclick="performSearch()">Search</button>
+                            </div>
+                            <div class="search-results" id="searchResults"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials section">
+        <div class="container">
+            <h2 class="section__title">What Students Say</h2>
+            <div class="testimonials__grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-card__text">"The semantic search is like a personal tutor!"</p>
+                    <div class="testimonial-card__author">– Aisha K.</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-card__text">"Flashcards saved me hours of work."</p>
+                    <div class="testimonial-card__author">– Raj P.</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-card__text">"Audio notes let me study while commuting."</p>
+                    <div class="testimonial-card__author">– Maya L.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Creator Section -->
+    <section id="about" class="about section">
+        <div class="container">
+            <div class="about__content">
+                <h2 class="about__title">About the Creator</h2>
+                <p class="about__description">Shivang Kumar Dubey — AI/ML enthusiast on a mission to help students succeed.</p>
+                <div class="about__links">
+                    <a href="mailto:shivangkumardubey@gmail.com" class="about__link">
+                        📧 Email
+                    </a>
+                    <a href="https://instagram.com/shivang.skd" target="_blank" class="about__link">
+                        📷 Instagram
+                    </a>
+                    <a href="https://github.com/Shivang731/edu-helper-ai" target="_blank" class="about__link">
+                        💻 GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta section">
+        <div class="container">
+            <div class="cta__content">
+                <h2 class="cta__title">Ready to Transform Your Learning?</h2>
+                <p class="cta__description">Upload a document and witness the AI-powered study revolution.</p>
+                <button class="btn btn--primary btn--lg" onclick="scrollToUpload()">Get Started Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__brand">
+                    <span class="footer__logo">📚</span>
+                    <span class="footer__title">Edu Helper AI</span>
+                </div>
+                <p class="footer__text">© 2025 Edu Helper AI. Transforming education with AI.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
