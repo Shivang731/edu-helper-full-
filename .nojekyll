@@ -1,0 +1,5 @@
+# In your repository root
+touch .nojekyll
+git add .nojekyll
+git commit -m "Add .nojekyll for direct static deployment"
+git push origin main
